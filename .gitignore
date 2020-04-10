@@ -41,3 +41,5 @@ hs_err_pid*
 *.class
 *.log
 
+.idea/
+data-struct1015.iml
