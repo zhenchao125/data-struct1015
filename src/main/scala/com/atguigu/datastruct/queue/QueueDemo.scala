@@ -25,10 +25,10 @@ object QueueDemo {
         queue.printQueue
     }
 }
-
+// 在jvm运行的时候, ClassTag可以记住泛型
 class ArrayQueue[T: ClassTag](initSize: Int) {
     // 定义数组, 用来存储数据   如果要泛型数组,需要给T添加上下文
-    val arr = new Array[T](initSize)
+    val arr = new Array[T](initSize)   // new int new String
     // 队头(出队的时候, 这个位置的元素出去)
     var head = 0
     // 表示队列下一个元素的位置(入队的时候, 新的元素放在这个位置)
