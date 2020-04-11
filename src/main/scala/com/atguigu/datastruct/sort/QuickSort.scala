@@ -27,7 +27,6 @@ object QuickSort {
         }
     }
     
-    
     // 不是原地排序, 而是返回排好序的新的数组. 原来数组不坐任何变化
     def scalaQuickSort(arr: Array[Int]): Array[Int] = {
         arr match {
