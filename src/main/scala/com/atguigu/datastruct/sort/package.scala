@@ -11,6 +11,6 @@ package object sort {
     
     def randomArr: Array[Int] = {
         val random = new Random()
-        (1 to 1000000).map(_ => random.nextInt(1000000)).toArray
+        (1 to 2000).map(_ => random.nextInt(1000)).toArray
     }
 }

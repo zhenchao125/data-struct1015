@@ -13,10 +13,10 @@ object QuickSort {
         //        println(arr1.mkString(", "))
         println("----------")
         val time = System.currentTimeMillis()
-        val sortedList = scalaQuickSort2(arr1.toList)
-        //        BubbleSort.sort(arr1)
+//        val sortedList = scalaQuickSort2(arr1.toList)
+                BubbleSort.sort(arr1)
         println(System.currentTimeMillis() - time)
-        println(sortedList.take(100).mkString(", "))
+//        println(sortedList.take(100).mkString(", "))
     }
     
     def scalaQuickSort2(list: List[Int]): List[Int] = {
