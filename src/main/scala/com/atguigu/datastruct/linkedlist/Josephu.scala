@@ -31,7 +31,6 @@ object Josephu {
             // 找到好枪毙那个人, 就是startNode
             list.delete(startNode.value)
             print(startNode + "->")
-            
             startNode = startNode.pre
         }
         startNode.value
