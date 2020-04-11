@@ -25,7 +25,6 @@ object ContextGeneric {
         val a = implicitly[CC[T]]
         a.eat(n)
     }
-    
 }
 
 /*
