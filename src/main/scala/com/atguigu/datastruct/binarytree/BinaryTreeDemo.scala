@@ -13,8 +13,8 @@ object BinaryTreeDemo {
         root.right.left = new BinaryTree[Int](15)
         root.right.right = new BinaryTree[Int](35)
         
-        //        root.preForeach(x => println(x))
-        //        root.infixForeach(x => println(x))
+//                root.preForeach(x => println(x))
+//                root.infixForeach(x => println(x))
         root.postForeach(x => println(x))
     }
 }
