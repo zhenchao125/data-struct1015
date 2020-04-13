@@ -38,8 +38,6 @@ object QuickSort {
                 (left :+ p) ++ right
             case _ => Array()
         }
-        
-        
     }
     
     
