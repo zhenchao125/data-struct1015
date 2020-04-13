@@ -1,7 +1,5 @@
 package com.atguigu.datastruct.sort
 
-import scala.util.Random
-
 /**
  * Author atguigu
  * Date 2020/4/11 14:25
@@ -9,14 +7,15 @@ import scala.util.Random
 object QuickSort {
     
     def main(args: Array[String]): Unit = {
-        val arr1 = randomArr
+//        val arr1 = randomArr
+        val arr1 = Array(30, 50, 70, 60, 10, 20)
         //        println(arr1.mkString(", "))
         println("----------")
         val time = System.currentTimeMillis()
-//        val sortedList = scalaQuickSort2(arr1.toList)
-                BubbleSort.sort(arr1)
+        val sortedList = scalaQuickSort(arr1)
+        //        BubbleSort.sort(arr1)
         println(System.currentTimeMillis() - time)
-//        println(sortedList.take(100).mkString(", "))
+        println(sortedList.take(100).mkString(", "))
     }
     
     def scalaQuickSort2(list: List[Int]): List[Int] = {
@@ -30,13 +29,15 @@ object QuickSort {
     // 不是原地排序, 而是返回排好序的新的数组. 原来数组不坐任何变化
     def scalaQuickSort(arr: Array[Int]): Array[Int] = {
         arr match {
+            // Array(10)
             case Array(p, rest@_*) =>
-                // 找到小于p的所有元素
+                /*// 找到小于p的所有元素
                 val left = scalaQuickSort(rest.filter(_ <= p).toArray)
-                // 小于大于p的所有鱼元素
-                val right = scalaQuickSort(rest.filter(_ > p).toArray)
-                (left :+ p) ++ right
-            case _ => Array()
+                // 小于大于p的所有元素
+                val right = scalaQuickSort(rest.filter(_ > p).toArray)*/
+                val (left, right): (Seq[Int], Seq[Int]) = rest.partition(_ <= p)
+                (scalaQuickSort(left.toArray) :+ p) ++scalaQuickSort(right.toArray)
+            case Array() => Array[Int]()
         }
     }
     
