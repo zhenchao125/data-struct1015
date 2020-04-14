@@ -6,7 +6,12 @@ package com.atguigu.datastruct.avltree
  */
 object AVLTreeDemo {
     def initTree() = {
-        val arr = Array(10, 4, 16, 1, 20, 7, 8, 6, 9) // 右右 -> 左旋
+        //        val arr = Array(10, 4, 16, 1, 20, 7, 8, 6, 9) // 右右 -> 左旋
+        //        val arr = Array(4, 3, 6, 5, 7, 8) // 右右 -> 左旋
+        //        val arr = Array(10, 12, 8, 9, 7, 6) // 右右 -> 左旋
+        //        val arr = Array(30, 20, 40, 25, 50, 13, 15, 10, 8) // 右右 -> 左旋
+//        val arr: Array[Int] = Array(10, 11, 7, 6, 8, 9) // (左右) 先左旋再右旋
+        val arr: Array[Int] = Array(10, 8, 16, 18, 14, 12) // (右左) 先右旋再左旋
         val tree = new AVLTree[Int]()
         
         arr.foreach(x => tree.add(x))
@@ -18,7 +23,6 @@ object AVLTreeDemo {
         val tree = initTree()
         println(tree.height)
         tree.infixForeach(x => print(x + "->"))
-        
     }
     
     
@@ -49,7 +53,12 @@ class AVLTree[T: Ordering] {
     def add(v: T) = {
         if (root == null) { // 如果第一次添加,自动成为根节点
             root = new AVLNode[T](v)
-        } else root.add(v) // 如果要添加的节点不是root, 交给root节点去完成
+        } else {
+            root.add(v)
+            if (root.p != null) {
+                root = root.p
+            }
+        } // 如果要添加的节点不是root, 交给root节点去完成
     }
     
     /**
@@ -150,6 +159,14 @@ class AVLNode[T: Ordering](var value: T) {
     
     def rotate(): Unit = {
         // 左左 -> 右旋
+        // 当前左树高度 - 右树的告诉 > 1 并且  左子树的 左 - 右 > 0
+        if (leftHeight - rightHeight > 1 && left.leftHeight - left.rightHeight > 0) {
+            println("左左..." + value)
+            println("平衡前: " + height)
+            rightRotate()
+            println("平衡后: " + height)
+            return
+        }
         
         // 右右 -> 左旋
         // 当前左树高度 - 右树的告诉 < -1 并且  有子树的 左 - 右 < 0
@@ -158,11 +175,53 @@ class AVLNode[T: Ordering](var value: T) {
             println("平衡前: " + height)
             leftRotate()
             println("平衡后: " + height)
+            return
         }
         
         // 左右 -> 左旋, 右旋
-        // 右左 -> 右旋, 左旋
+        // 当前节点左边高, 当前节点的左节点是右边高
+        if (leftHeight - rightHeight > 1 && left.leftHeight - left.rightHeight < 0) {
+            println("左右..." + value)
+            // 失衡的节点的左节点左旋
+            left.leftRotate()
+            // 当前节点左右旋
+            rightRotate()
+            return
+        }
         
+        // 右左 -> 右旋, 左旋
+        if (leftHeight - rightHeight < -1 && right.leftHeight - right.rightHeight > 0) {
+            println("右左..." + value)
+            // 失衡的节点的左节点左旋
+            right.rightRotate()
+            // 当前节点左右旋
+            leftRotate()
+            return
+        }
+        
+        
+    }
+    
+    def rightRotate() = {
+        // 1. 先缓存需要变换的节点
+        val tempP: AVLNode[T] = p
+        val tempLeft: AVLNode[T] = left
+        val tempLeftRight: AVLNode[T] = left.right // 有可能不存在
+        // 2. 进行旋转
+        //2.1 让当前的节点的左节点, 指左节点的右节点
+        left = tempLeftRight
+        // 2.2 当左节点的右节点指向当前节点
+        tempLeft.right = this
+        // 2.3 当当前父节点的左(右)节点指向当前节点的左节点
+        if (tempP != null && tempP.left == this) {
+            tempP.left = tempLeft
+        } else if (tempP != null) {
+            tempP.right = tempLeft
+        }
+        // 2.4 更新父节点
+        if (tempLeftRight != null) tempLeftRight.p = this
+        this.p = tempLeft
+        tempLeft.p = tempP
     }
     
     def leftRotate() = {
